@@ -7,11 +7,11 @@ import { ThemedView } from '@/components/ThemedView';
 export default function NotFoundScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
+      <Stack.Screen options={{ title: 'Oops!'}}/>
       <ThemedView style={styles.container}>
-        <ThemedText type="title">This screen doesn't exist.</ThemedText>
-        <Link href="/" style={styles.link}>
-          <ThemedText type="link">Go to home screen!</ThemedText>
+        <ThemedText type="title">Essa tela não existe!</ThemedText>
+        <Link href="./Inicio/index" style={styles.link}>
+          <ThemedText type="link">Vá para a página inicial.</ThemedText>
         </Link>
       </ThemedView>
     </>
@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    textAlign: 'center',
+    padding: 15,
   },
   link: {
     marginTop: 15,

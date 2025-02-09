@@ -8,7 +8,7 @@ import {
   RefreshControl 
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import styles from './style.js';
+import styles from '../style.js';
 
 type Demanda = {
   id: number;
@@ -16,10 +16,10 @@ type Demanda = {
   status: string;
 };
 
-export default function HomeScreen() {
+export default function Inicio() {
   const [demandas, setDemandas] = useState<Demanda[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const api = require('./server.json');
+  const api = require('../server.json');
 
   const animations = useRef<Animated.Value[]>([]);
   
@@ -43,7 +43,6 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (demandas.length > 0) {
-      // Atualiza a referência de animações para o novo número de demandas
       animations.current = demandas.map(() => new Animated.Value(0));
 
       Animated.stagger(

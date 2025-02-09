@@ -8,7 +8,7 @@ import {
   RefreshControl 
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import styles from '../style.js';
+import styles from '../../style';
 
 type Demanda = {
   id: number;
@@ -16,10 +16,10 @@ type Demanda = {
   status: string;
 };
 
-export default function Inicio() {
+export default function index() {
   const [demandas, setDemandas] = useState<Demanda[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const api = require('../server.json');
+  const api = require('../../server.json');
 
   const animations = useRef<Animated.Value[]>([]);
   

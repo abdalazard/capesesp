@@ -9,37 +9,18 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import styles from '../../style';
-
-type Demanda = {
-  id: number;
-  titulo: string;
-  status: string;
-};
+import useDemandaStore from '@/hooks/store/demanda.store';
 
 export default function index() {
-  const [demandas, setDemandas] = useState<Demanda[]>([]);
+  const { demandas, fetchDemandas } = useDemandaStore();
+
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const api = require('../../server.json');
 
   const animations = useRef<Animated.Value[]>([]);
-  
-  const fetchDemandas = async () => {
-    try {
-      let demandas: Demanda[] = api.demandas;  
-
-      if (Array.isArray(demandas)) {
-        setDemandas(demandas); 
-      } else {
-        console.log("Erro: a resposta não é um array válido.");
-      }
-    } catch (error) {
-      console.error("Erro ao carregar as demandas:", error);
-    }
-  };
 
   useEffect(() => {
-    fetchDemandas();
-  }, []);
+      fetchDemandas();
+  },);
 
   useEffect(() => {
     if (demandas.length > 0) {
@@ -70,11 +51,11 @@ export default function index() {
     // Lógica para adicionar demanda
   };
 
-  const handleDeleteDemand = async (id: Number) => {
+  const handleDeleteDemand = async (id: string) => {
     // Lógica para deletar demanda
   };
 
-  const handleEditDemand = async (demanda: Demanda) => {
+  const handleEditDemand = async (id: string) => {
     // Lógica para editar demanda
   };
 
@@ -100,13 +81,13 @@ export default function index() {
           {Array.isArray(demandas) && demandas.length > 0 ? (
             demandas.map((demanda, index) => {
               return (
-                <View key={demanda.id} style={styles.listaDeObjetos}>
-                  <Text style={styles.text}>{demanda.titulo} - {demanda.status}</Text>
+                <View key={demanda.codigo} style={styles.listaDeObjetos}>
+                  <Text style={styles.text}>{demanda.descricao}</Text>
                   <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => handleEditDemand(demanda)}>
+                    <TouchableOpacity style={styles.button} onPress={() => handleEditDemand(demanda.codigo)}>
                       <Icon name="edit" size={20} color="#4CAF50" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => handleDeleteDemand(demanda.id)}>
+                    <TouchableOpacity style={styles.button} onPress={() => handleDeleteDemand(demanda.codigo)}>
                       <Icon name="trash-2" size={20} color="#F44336" />
                     </TouchableOpacity>
                   </View>

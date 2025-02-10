@@ -9,7 +9,7 @@ export default function teste() {
   return (
     <View style={styles.container}>
       <View style={styles.viewContainer}>
-        <Text style={styles.topView}>teste</Text>
+        <Text style={styles.topView}>Teste</Text>
       </View>
     </View>
   );

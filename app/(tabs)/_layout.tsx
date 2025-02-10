@@ -11,6 +11,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+
   return (
     <Tabs
       screenOptions={{
@@ -27,17 +28,17 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="(home)/index"
+        name="(home)"
         options={{
           title: 'Inicio',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="(teste)/index"
+        name="(store)"
         options={{
-          title: 'Teste',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Criar Demanda',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="plus.fill" color={color} />,
         }}
       />
     </Tabs>

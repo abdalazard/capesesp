@@ -4,6 +4,7 @@ import DemandaStore, { Demanda, DemandasArray } from './types/demanda.type';
 export const useDemandaStore = create<DemandaStore>(
     (set) => ({
 
+    
     demanda: null,
     demandas: [],
     isLoading: false,
@@ -15,12 +16,11 @@ export const useDemandaStore = create<DemandaStore>(
 
     fetchDemandas: async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/demandas');
+            const url = 'http://127.0.0.1:8000/api';
+            const response = await fetch(url + '/demandas');
             const data = await response.json();
 
-            console.log(data)
-
-            set({ demandas: data });
+            set({ demandas: data[0] });
         } catch (error) {
             set({ error: 'Erro ao carregar as demandas' });
         } finally {

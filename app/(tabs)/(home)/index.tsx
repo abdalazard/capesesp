@@ -5,23 +5,24 @@ import {
   ScrollView, 
   TouchableOpacity, 
   Animated, 
-  RefreshControl 
+  RefreshControl, 
+  TextInput
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import styles from '../../style';
 import useDemandaStore from '@/hooks/store/demanda.store';
 
 export default function index() {
-  const { demandas, fetchDemandas } = useDemandaStore();
-
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-
+  const { demandas, isLoading, error, fetchDemandas, setDemandas } = useDemandaStore();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
   const animations = useRef<Animated.Value[]>([]);
 
   useEffect(() => {
       fetchDemandas();
-  },);
+  },[]);
 
+  
   useEffect(() => {
     if (demandas.length > 0) {
       animations.current = demandas.map(() => new Animated.Value(0));
@@ -39,12 +40,11 @@ export default function index() {
     }
   }, [demandas]);
 
+
   const handleRefresh = () => {
     setIsRefreshing(true);
-    setTimeout(() => {
-      fetchDemandas(); 
-      setIsRefreshing(false); 
-    }, 2000);
+    setPage(1);
+    fetchDemandas().finally(() => setIsRefreshing(false));
   };
 
   const handleAddDemand = async () => {
@@ -71,10 +71,10 @@ export default function index() {
           style={styles.scrollView} 
           contentContainerStyle={{ flexGrow: 1 }}
           refreshControl={
-            <RefreshControl 
-              refreshing={isRefreshing}
-              onRefresh={handleRefresh} 
-              progressViewOffset={20}
+            <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+                progressViewOffset={20}
             />
           }
         >
@@ -82,7 +82,7 @@ export default function index() {
             demandas.map((demanda, index) => {
               return (
                 <View key={demanda.codigo} style={styles.listaDeObjetos}>
-                  <Text style={styles.text}>{demanda.descricao}</Text>
+                  <Text style={styles.text}>{demanda.codigo} - {demanda.descricao}</Text>
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => handleEditDemand(demanda.codigo)}>
                       <Icon name="edit" size={20} color="#4CAF50" />
@@ -101,9 +101,10 @@ export default function index() {
       </View>      
 
       <View style={styles.criacaoDeObjeto}>
-        <Text style={styles.title}>Criar demanda:</Text>
+        <Text style={styles.title}>Código: </Text>
+        <TextInput style={{borderColor: 'black', borderWidth: 1, borderRadius: 15, width: '100%', padding: 10, marginLeft: 5, marginRight: 10}} placeholder='Insira código'/>
         <TouchableOpacity style={styles.addButton} onPress={handleAddDemand}>
-          <Text style={styles.addButtonText}>Adicionar</Text>
+          <Text style={styles.addButtonText}>Encontrar demanda</Text>
         </TouchableOpacity>
       </View>
     </View>

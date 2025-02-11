@@ -101,12 +101,21 @@ export default function index() {
       </View>      
 
       <View style={styles.criacaoDeObjeto}>
-        <Text style={styles.title}>Código: </Text>
-        <TextInput style={{borderColor: 'black', borderWidth: 1, borderRadius: 15, width: '100%', padding: 10, marginLeft: 5, marginRight: 10}} placeholder='Insira código'/>
-        <TouchableOpacity style={styles.addButton} onPress={handleAddDemand}>
-          <Text style={styles.addButtonText}>Encontrar demanda</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.title}>Código da Demanda:</Text>
+
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'space-between'}}>
+            <TextInput 
+              style={styles.input}
+              placeholder='Insira código'
+            />
+            <TouchableOpacity style={styles.addButton} onPress={handleAddDemand}>
+              <Text style={styles.addButtonText}>Encontrar</Text>
+            </TouchableOpacity>     
+          </View>
+        </View>
+   
+      </View> 
     </View>
   );
 }

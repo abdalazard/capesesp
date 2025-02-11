@@ -29,12 +29,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 70, 
   },
-  title: {
-    color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10
-  },
   scrollView: {
     flexGrow: 1,
   },
@@ -60,26 +54,45 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   criacaoDeObjeto: {
-    position: 'absolute', // Fixa no rodapé
+    position: 'absolute',
     bottom: 0,
     width: '100%',
     backgroundColor: 'white',
     padding: 10,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     borderTopWidth: 1,
     borderTopColor: 'lightgray',
   },
+  title: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  inputContainer: { 
+    flex: 1,
+    flexDirection: 'column',
+
+   },
+  input: { 
+    minWidth: '70%',
+    borderColor: 'black', 
+    borderWidth: 1, 
+    borderRadius: 15, 
+    padding: 10, 
+  },  
   addButton: {
     backgroundColor: '#000',
-    padding: 10,
-    borderRadius: 8
+    padding: 5,
+    borderRadius: 8,
+    height: 40,
+    justifyContent: 'center',
   },
   addButtonText: {
     color: 'white',
     fontWeight: 'bold'
-  }
+  },
 });
 
 export default styles;

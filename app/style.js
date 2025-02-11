@@ -84,13 +84,14 @@ const styles = StyleSheet.create({
   },  
   addButton: {
     backgroundColor: '#000',
-    padding: 5,
+    paddingLeft: 20,
+    paddingRight: 20,
     borderRadius: 8,
     height: 40,
     justifyContent: 'center',
   },
   addButtonText: {
-    color: 'white',
+    color: '#fff',
     fontWeight: 'bold'
   },
 });

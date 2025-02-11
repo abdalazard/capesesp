@@ -110,7 +110,7 @@ export default function index() {
               placeholder='Insira código'
             />
             <TouchableOpacity style={styles.addButton} onPress={handleAddDemand}>
-              <Text style={styles.addButtonText}>Encontrar</Text>
+              <Text style={styles.addButtonText}>Buscar</Text>
             </TouchableOpacity>     
           </View>
         </View>

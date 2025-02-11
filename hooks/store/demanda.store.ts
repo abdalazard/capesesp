@@ -4,7 +4,6 @@ import DemandaStore, { Demanda, DemandasArray } from './types/demanda.type';
 export const useDemandaStore = create<DemandaStore>(
     (set) => ({
 
-    
     demanda: null,
     demandas: [],
     isLoading: false,
@@ -25,6 +24,29 @@ export const useDemandaStore = create<DemandaStore>(
             set({ error: 'Erro ao carregar as demandas' });
         } finally {
             set({ isLoading: false });
+        }
+    },
+
+    buscaDemanda: async (codigoBusca) => {
+        try {
+            const url = 'http://127.0.0.1:8000/api';
+            const response = await fetch(`${url}/demanda/${codigoBusca}`);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Erro ${response.status}`);
+            }
+
+            const data = await response.json(); 
+
+            set({ demandas: data });
+
+            return data; 
+        } catch (error) {
+            console.error("Erro na busca", error);
+            return null; 
+        } finally {
+            set({ isLoading: false }); 
         }
     },
 }));

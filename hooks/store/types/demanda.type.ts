@@ -41,6 +41,7 @@ interface DemandaStore {
     error: string | null;
     setError: (error: string | null) => void;
     fetchDemandas: () => Promise<void>;
+    buscaDemanda: (codigoBusca: string) => Promise<Demanda  | null>;
 }
 
 export default DemandaStore;

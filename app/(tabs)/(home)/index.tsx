@@ -6,22 +6,26 @@ import {
   TouchableOpacity, 
   Animated, 
   RefreshControl, 
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import styles from '../../style';
 import useDemandaStore from '@/hooks/store/demanda.store';
+import { useRouter } from 'expo-router';
 
 export default function index() {
-  const { demandas, isLoading, error, fetchDemandas, setDemandas } = useDemandaStore();
+  const { demandas, isLoading, error, fetchDemandas, buscaDemanda } = useDemandaStore();
+  const router = useRouter();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [codigoBusca, setCodigoBusca] = useState('');
   const [page, setPage] = useState(1);
+
   const animations = useRef<Animated.Value[]>([]);
 
   useEffect(() => {
       fetchDemandas();
   },[]);
-
   
   useEffect(() => {
     if (demandas.length > 0) {
@@ -47,8 +51,17 @@ export default function index() {
     fetchDemandas().finally(() => setIsRefreshing(false));
   };
 
-  const handleAddDemand = async () => {
-    // Lógica para adicionar demanda
+  const encontrarDemanda = async (codigoBusca: string) => {
+    if (!codigoBusca) {
+     Alert.alert('Atenção', 'Por favor, insira um código para buscar.');
+     return;
+    }
+
+    await buscaDemanda(codigoBusca);
+  };
+
+  const handleDemandaPress = (demanda: any) => {
+    // router.navigate(`./demanda/${demanda.codigo}`);
   };
 
   const handleDeleteDemand = async (id: string) => {
@@ -82,7 +95,13 @@ export default function index() {
             demandas.map((demanda, index) => {
               return (
                 <View key={demanda.codigo} style={styles.listaDeObjetos}>
-                  <Text style={styles.text}>{demanda.codigo} - {demanda.descricao}</Text>
+                  <TouchableOpacity 
+                    key={demanda.codigo} 
+                    onPress={() => handleDemandaPress(demanda)}
+                  >
+                    <Text style={styles.text}>{demanda.codigo} - {demanda.descricao}</Text>
+                  </TouchableOpacity>
+                  
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => handleEditDemand(demanda.codigo)}>
                       <Icon name="edit" size={20} color="#4CAF50" />
@@ -108,8 +127,10 @@ export default function index() {
             <TextInput 
               style={styles.input}
               placeholder='Insira código'
+              value={codigoBusca} 
+              onChangeText={setCodigoBusca}
             />
-            <TouchableOpacity style={styles.addButton} onPress={handleAddDemand}>
+            <TouchableOpacity style={styles.addButton} onPress={() => encontrarDemanda(codigoBusca)}>
               <Text style={styles.addButtonText}>Buscar</Text>
             </TouchableOpacity>     
           </View>

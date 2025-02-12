@@ -12,11 +12,10 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import styles from '../../style';
 import useDemandaStore from '@/hooks/store/demanda.store';
-import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 
 export default function index() {
-  const { demandas, isLoading, error, fetchDemandas, buscaDemanda } = useDemandaStore();
-  const router = useRouter();
+  const { demandas, fetchDemandas, buscaDemanda } = useDemandaStore();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [codigoBusca, setCodigoBusca] = useState('');
   const [page, setPage] = useState(1);
@@ -60,10 +59,6 @@ export default function index() {
     await buscaDemanda(codigoBusca);
   };
 
-  const handleDemandaPress = (demanda: any) => {
-    // router.navigate(`./demanda/${demanda.codigo}`);
-  };
-
   const handleDeleteDemand = async (id: string) => {
     // Lógica para deletar demanda
   };
@@ -95,13 +90,9 @@ export default function index() {
             demandas.map((demanda, index) => {
               return (
                 <View key={demanda.codigo} style={styles.listaDeObjetos}>
-                  <TouchableOpacity 
-                    key={demanda.codigo} 
-                    onPress={() => handleDemandaPress(demanda)}
-                  >
+                  <Link href={{ pathname: "../../ver_demanda", params: { cod: demanda.codigo }}}>
                     <Text style={styles.text}>{demanda.codigo} - {demanda.descricao}</Text>
-                  </TouchableOpacity>
-                  
+                  </Link>                  
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => handleEditDemand(demanda.codigo)}>
                       <Icon name="edit" size={20} color="#4CAF50" />

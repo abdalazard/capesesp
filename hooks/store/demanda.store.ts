@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import DemandaStore, { Demanda, DemandasArray } from './types/demanda.type';
+import DemandaStore, { DemandasArray } from './types/demanda.type';
 
 export const useDemandaStore = create<DemandaStore>(
     (set) => ({
@@ -15,7 +15,7 @@ export const useDemandaStore = create<DemandaStore>(
 
     fetchDemandas: async () => {
         try {
-            const url = 'http://127.0.0.1:8000/api';
+            const url = 'http://127.0.0.1:8000/api';            
             const response = await fetch(url + '/demandas');
             const data = await response.json();
 

@@ -100,10 +100,6 @@ export default function CriarDemanda() {
     );
   };
 
-  if (!demanda) {
-    return <Text style={{ textAlign: 'center' }}>Carregando os dados da demanda...</Text>;
-  }
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{
@@ -120,94 +116,100 @@ export default function CriarDemanda() {
       </View>
 
       <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
-          <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Código</Text>
-          <TextInput
-            style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
-            value={demanda.cod}
-            onChangeText={text => handleInputChange('cod', text)}
-          />
-        </View>
+        {!demanda? (
+          <Text style={{ textAlign: 'center' }}>Carregando os dados da demanda...</Text>
+        ): (
+          <View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
+              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Código</Text>
+              <TextInput
+                style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
+                value={demanda.cod}
+                onChangeText={text => handleInputChange('cod', text)}
+              />
+            </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
-          <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Descrição:</Text>
-            <TextInput
-              style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
-              value={demanda.descricao}
-              onChangeText={text => handleInputChange('descricao', text)}
-            />
+            <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
+              <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
+                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Descrição:</Text>
+                <TextInput
+                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
+                  value={demanda.descricao}
+                  onChangeText={text => handleInputChange('descricao', text)}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
+              <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
+                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Descrição Web:</Text>
+                <TextInput
+                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
+                  value={demanda.descricaoWeb}
+                  onChangeText={text => handleInputChange('descricaoWeb', text)}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
+              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Prazo</Text>
+              <TextInput
+                style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
+                value={demanda.prazo}
+                onChangeText={text => handleInputChange('prazo', text)}
+              />
+            </View>
+
+            <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
+              <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
+                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Área:</Text>
+                <TextInput
+                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
+                  value={demanda.area}
+                  onChangeText={text => handleInputChange('area', text)}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
+              <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
+                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Atendimento:</Text>
+                <TextInput
+                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
+                  value={demanda.atendimento}
+                  onChangeText={text => handleInputChange('atendimento', text)}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'space-between' }}>
+                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Grupo</Text>
+                <TextInput
+                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius: 20 }}
+                  value={demanda.grupo}
+                  onChangeText={text => handleInputChange('grupo', text)}
+                />
+
+                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Tipo</Text>
+                <TextInput
+                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius: 20 }}
+                  value={demanda.tipo}
+                  onChangeText={text => handleInputChange('tipo', text)}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
+              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Ativo</Text>
+              <TextInput
+                style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
+                value={demanda.ativo}
+                onChangeText={text => handleInputChange('ativo', text)}
+              />
+            </View>
           </View>
-        </View>
-
-        <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
-          <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Descrição Web:</Text>
-            <TextInput
-              style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
-              value={demanda.descricaoWeb}
-              onChangeText={text => handleInputChange('descricaoWeb', text)}
-            />
-          </View>
-        </View>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
-          <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Prazo</Text>
-          <TextInput
-            style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
-            value={demanda.prazo}
-            onChangeText={text => handleInputChange('prazo', text)}
-          />
-        </View>
-
-        <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
-          <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Área:</Text>
-            <TextInput
-              style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
-              value={demanda.area}
-              onChangeText={text => handleInputChange('area', text)}
-            />
-          </View>
-        </View>
-
-        <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
-          <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Atendimento:</Text>
-            <TextInput
-              style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
-              value={demanda.atendimento}
-              onChangeText={text => handleInputChange('atendimento', text)}
-            />
-          </View>
-        </View>
-
-        <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'space-between' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Grupo</Text>
-            <TextInput
-              style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius: 20 }}
-              value={demanda.grupo}
-              onChangeText={text => handleInputChange('grupo', text)}
-            />
-
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Tipo</Text>
-            <TextInput
-              style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius: 20 }}
-              value={demanda.tipo}
-              onChangeText={text => handleInputChange('tipo', text)}
-            />
-          </View>
-        </View>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
-          <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Ativo</Text>
-          <TextInput
-            style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
-            value={demanda.ativo}
-            onChangeText={text => handleInputChange('ativo', text)}
-          />
-        </View>
+        )}
       </ScrollView>
       <ActionButtons />
     </SafeAreaView>

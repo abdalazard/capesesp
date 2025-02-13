@@ -111,7 +111,7 @@ export default function CriarDemanda() {
       }}>
         <BackButton />
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ color: '#fff', fontSize: 25 }}> {cod ? "Editar" : "Criar"} Demanda</Text>
+          <Text style={{ color: '#fff', fontSize: 25 }}> {!demanda ? "Editar" : "Criar"} Demanda</Text>
         </View>
       </View>
 

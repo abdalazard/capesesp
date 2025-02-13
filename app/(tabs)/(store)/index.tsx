@@ -20,15 +20,15 @@ export default function CriarDemanda() {
       } else {
         // Inicializa com um objeto vazio para nova demanda
         setDemanda({
-          area: { descricao: '' },
-          atendimento: { descricao: '' },
-          ativo: { descricao: '' },
+          area: '',
+          atendimento: '',
+          ativo: '',
           codigo: '',
           descricao: '',
           descricaoweb: '',
-          grupo: { descricao: '' },
+          grupo: '',
           prazo: '',
-          tipo: { descricao: '' },
+          tipo: '',
         });
       }
     };
@@ -84,16 +84,18 @@ export default function CriarDemanda() {
         }} onPress={handleSubmit}>
           <Check size={24} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity style={{
-          backgroundColor: 'red',
-          padding: 8,
-          marginHorizontal: 5,
-          borderRadius: 5,
-          width: 80,
-          alignItems: 'center'
-        }} onPress={() => alert("Excluir")}>
-          <Trash size={24} color="white" />
-        </TouchableOpacity>
+        {cod && (
+          <TouchableOpacity style={{
+            backgroundColor: 'red',
+            padding: 8,
+            marginHorizontal: 5,
+            borderRadius: 5,
+            width: 80,
+            alignItems: 'center'
+          }} onPress={() => alert("Excluir")}>
+            <Trash size={24} color="white" />
+          </TouchableOpacity>
+        )}
       </View>
     );
   };

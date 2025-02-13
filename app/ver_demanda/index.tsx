@@ -40,51 +40,52 @@ export default function index() {
       <View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
           <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Código</Text>
-            <Text style={{ fontSize: 20 }}>{demandaObtida[0].codigo}</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Código</Text>
+            <Text style={{ fontSize: 20, marginLeft: 30 }}>{demandaObtida[0].codigo}</Text>
           </View>
           
         </View>
 
         <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
           <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
-              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Descrição:</Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Descrição:</Text>
               <Text style={{ fontSize: 20 }}>{demandaObtida[0].descricao}</Text>
           </View>
           <View style={{ flexDirection: 'row', gap: 20 }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold', marginBottom: 30 }}>Descrição Web:</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 30 }}>Descrição Web:</Text>
             <Text style={{ fontSize: 20 }}>{demandaObtida[0].descricaoweb}</Text>
           </View>
           <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Prazo:</Text>
-            <Text style={{ fontSize: 20 }}>{demandaObtida[0].prazo}</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Prazo:</Text>
+            <Text style={{ fontSize: 20,  marginLeft: 40 }}>{demandaObtida[0].prazo}</Text>
           </View>
         </View>
-          <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40}}>
+        <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40}}>
           <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Área:</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Área:</Text>
             <Text style={{ fontSize: 20 }}>{demandaObtida[0].area?.descricao}</Text>
           </View>
           <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Atendimento:</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Atendimento:</Text>
             <Text style={{ fontSize: 20 }}>{demandaObtida[0].atendimento?.descricao}</Text>
           </View>
         </View>
 
         <View style={{ flexDirection: 'row', gap:50, marginBottom: 40 }}>
           <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Grupo:</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Grupo:</Text>
             <Text style={{ fontSize: 20 }}>{demandaObtida[0].grupo?.descricao}</Text>
           </View>
-          <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Tipo:</Text>
+          
+        </View>
+        <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Tipo:</Text>
             <Text style={{ fontSize: 20 }}>{demandaObtida[0].tipo?.descricao}</Text>
-          </View>
         </View>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 40}}>
           <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Ativo:</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Ativo:</Text>
             <Text style={{ fontSize: 20 }}>{demandaObtida[0].ativo?.descricao}</Text>
           </View>
         </View>
@@ -96,14 +97,14 @@ export default function index() {
     return (
       <View style={{ 
         position: 'absolute',
-        bottom: 0,
+        bottom: 5,
         left: 0, 
         right: 0,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
         paddingHorizontal: 10,
-        paddingVertical: 5,   
+        paddingVertical: 0,   
       }}>
         <TouchableOpacity
           style={{ 
@@ -150,9 +151,9 @@ export default function index() {
           contentContainerStyle={{ flexGrow: 1 }}
         >
           {renderDemandaDetails()}
-          <ActionButtons />
       </ScrollView>
     </View>
+    <ActionButtons />
   </SafeAreaView>
   )
 }

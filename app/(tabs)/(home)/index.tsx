@@ -12,13 +12,14 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import styles from '../../style';
 import useDemandaStore from '@/hooks/store/demanda.store';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 export default function index() {
   const { demandas, fetchDemandas, buscaDemanda } = useDemandaStore();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [codigoBusca, setCodigoBusca] = useState('');
   const [page, setPage] = useState(1);
+  const router = useRouter();
 
   const animations = useRef<Animated.Value[]>([]);
 
@@ -59,12 +60,15 @@ export default function index() {
     await buscaDemanda(codigoBusca);
   };
 
-  const handleDeleteDemand = async (id: string) => {
+  const handleDeleteDemand = async (cod: string) => {
     // Lógica para deletar demanda
   };
 
-  const handleEditDemand = async (id: string) => {
-    // Lógica para editar demanda
+  const handleEditDemand = async (cod: string) => {
+    router.push({ 
+      pathname: '/(tabs)/(home)',
+      params: { cod }
+    });
   };
 
   return (

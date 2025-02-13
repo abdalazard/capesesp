@@ -1,10 +1,11 @@
-import { Link, useGlobalSearchParams } from 'expo-router';
+import { Link, router, useGlobalSearchParams } from 'expo-router';
 import styles from '../style';
 import { Text, ScrollView, View, TouchableOpacity } from 'react-native';
 import { ArrowLeft, Trash } from 'phosphor-react-native';
 import useDemandaStore from '@/hooks/store/demanda.store';
 import { useEffect, useState } from 'react';
 import { PencilSimple } from 'phosphor-react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function index() {
   const { cod } = useGlobalSearchParams();
@@ -15,9 +16,10 @@ export default function index() {
   useEffect(() => {
     const fetchDemanda = async () => {
       const demandaRecebida = await buscaDemanda(String(cod));
-      console.log(demandaRecebida)
       setDemandaObtida(demandaRecebida);
+      console.log(demandaRecebida)
     };
+
     fetchDemanda();
   }, [demanda,cod]);
 
@@ -103,14 +105,20 @@ export default function index() {
         paddingHorizontal: 10,
         paddingVertical: 5,   
       }}>
-        <TouchableOpacity style={{ 
-          backgroundColor:'blue',
-          padding: 8,
-          marginHorizontal: 5,
-          borderRadius: 5,
-          width: 80,
-          alignItems:'center'  
-        }} onPress={() => alert("Editar")}>
+        <TouchableOpacity
+          style={{ 
+            backgroundColor:'blue',
+            padding: 8,
+            marginHorizontal: 5,
+            borderRadius: 5,
+            width: 80,
+            alignItems:'center'  
+          }}
+          onPress={() => router.push({
+            pathname: '/(tabs)/(store)',
+            params: { cod }
+          })
+        }>
           <PencilSimple size={24} color="white" />
         </TouchableOpacity>
         <TouchableOpacity style={{ 
@@ -128,7 +136,7 @@ export default function index() {
   };
 
   return (  
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={[styles.topView, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }]}>
         <BackButton />
         <View style={{ flex: 1, alignItems: 'center' }}>
@@ -145,6 +153,6 @@ export default function index() {
           <ActionButtons />
       </ScrollView>
     </View>
-  </View>
+  </SafeAreaView>
   )
 }

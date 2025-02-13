@@ -11,7 +11,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
+    <Tabs 
       screenOptions={({ route }) => ({
       tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
       headerShown: false,

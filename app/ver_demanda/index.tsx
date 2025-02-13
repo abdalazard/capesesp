@@ -115,7 +115,7 @@ export default function index() {
             alignItems:'center'  
           }}
           onPress={() => router.push({
-            pathname: '/(tabs)/(store)',
+            pathname: '../atualiza_demanda',
             params: { cod }
           })
         }>

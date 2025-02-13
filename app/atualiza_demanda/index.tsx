@@ -1,39 +1,41 @@
 import { Link, useGlobalSearchParams } from 'expo-router';
-import { Text, ScrollView, View, TouchableOpacity, TextInput } from 'react-native';
+import { Text, ScrollView, View, TouchableOpacity, TextInput, Switch } from 'react-native';
 import { ArrowLeft, Check, Trash } from 'phosphor-react-native';
 import useDemandaStore from '@/hooks/store/demanda.store';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Demanda } from '@/hooks/store/types/demanda.type';
 
-export default function CriarDemanda() {
+export default function index() {
   const { cod } = useGlobalSearchParams();
-  const [demanda, setDemanda] = useState<any>(null);
+  const [demandaEditavel, setDemandaEditavel] = useState<any>(null); // Novo estado para os dados editáveis
 
   const { buscaDemanda, /*salvarDemanda, atualizarDemanda*/ } = useDemandaStore();
 
   useEffect(() => {
     const fetchDemanda = async () => {
-        setDemanda({
-          area: '',
-          atendimento: '',
-          ativo: '',
-          codigo: '',
-          descricao: '',
-          descricaoweb: '',
-          grupo: '',
-          prazo: '',
-          tipo: '',
-        });
+      if (cod) {
+        const demandaRecebida = await buscaDemanda(String(cod));
+        setDemandaEditavel({ ...demandaRecebida });
+
+      }
     };
     fetchDemanda();
   }, [cod]);
 
+  console.log(demandaEditavel);
+
+
   const handleInputChange = (field: string, value: string) => {
-    setDemanda((prevDemanda: any) => ({
-      ...prevDemanda,
-      [field]: value,
-    }));
+    setDemandaEditavel((prevDemanda: any) => {
+        const updatedDemanda = {...prevDemanda};
+        if (typeof updatedDemanda[0][field] === 'object' && updatedDemanda[0][field] !== null) {
+            updatedDemanda[0][field] = {...updatedDemanda[0][field], descricao: value};
+        } else {
+            updatedDemanda[0][field] = value;
+        }
+        console.log(updatedDemanda);
+        return updatedDemanda;
+    });
   };
 
   const handleSubmit = async () => {
@@ -105,20 +107,18 @@ export default function CriarDemanda() {
       }}>
         <BackButton />
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ color: '#fff', fontSize: 25 }}> {!demanda ? "Editar" : "Criar"} Demanda</Text>
+          <Text style={{ color: '#fff', fontSize: 25 }}> Editar Demanda</Text>
         </View>
       </View>
 
       <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20 }}>
-        {!demanda? (
-          <Text style={{ textAlign: 'center' }}>Carregando os dados da demanda...</Text>
-        ): (
+        {demandaEditavel && demandaEditavel[0] ? (
           <View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
-              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Código</Text>
+              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Código:</Text>
               <TextInput
                 style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
-                value={demanda.cod}
+                value={demandaEditavel[0].codigo}
                 onChangeText={text => handleInputChange('cod', text)}
               />
             </View>
@@ -128,7 +128,7 @@ export default function CriarDemanda() {
                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Descrição:</Text>
                 <TextInput
                   style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
-                  value={demanda.descricao}
+                  value={demandaEditavel[0].descricao}
                   onChangeText={text => handleInputChange('descricao', text)}
                 />
               </View>
@@ -139,17 +139,17 @@ export default function CriarDemanda() {
                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Descrição Web:</Text>
                 <TextInput
                   style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
-                  value={demanda.descricaoWeb}
-                  onChangeText={text => handleInputChange('descricaoWeb', text)}
+                  value={demandaEditavel[0].descricaoweb}
+                  onChangeText={text => handleInputChange('descricaoweb', text)}
                 />
               </View>
             </View>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
-              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Prazo</Text>
+              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Prazo:</Text>
               <TextInput
                 style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
-                value={demanda.prazo}
+                value={demandaEditavel[0].prazo}
                 onChangeText={text => handleInputChange('prazo', text)}
               />
             </View>
@@ -159,7 +159,7 @@ export default function CriarDemanda() {
                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Área:</Text>
                 <TextInput
                   style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
-                  value={demanda.area}
+                  value={demandaEditavel[0].area.descricao}
                   onChangeText={text => handleInputChange('area', text)}
                 />
               </View>
@@ -170,40 +170,52 @@ export default function CriarDemanda() {
                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Atendimento:</Text>
                 <TextInput
                   style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
-                  value={demanda.atendimento}
+                  value={demandaEditavel[0].atendimento.descricao}
                   onChangeText={text => handleInputChange('atendimento', text)}
                 />
               </View>
             </View>
 
             <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'space-between' }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Grupo</Text>
-                <TextInput
-                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius: 20 }}
-                  value={demanda.grupo}
-                  onChangeText={text => handleInputChange('grupo', text)}
-                />
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, gap: 20 }}>
+                <View style={{ flexDirection: 'row', gap: 10, flex: 2 }}> {/* Grupo ocupa 2/3 do espaço */}
+                  <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Grupo:</Text>
+                  <TextInput
+                    style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 20, flex: 1 }} // flex: 1 dentro do flex:2
+                    value={demandaEditavel[0].grupo.descricao}
+                    onChangeText={text => handleInputChange('grupo', text)}
+                  />
+                </View>
 
-                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Tipo</Text>
-                <TextInput
-                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius: 20 }}
-                  value={demanda.tipo}
-                  onChangeText={text => handleInputChange('tipo', text)}
-                />
+                <View style={{ flexDirection: 'row', gap: 10}}>
+                  <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Tipo:</Text>
+                  <TextInput
+                    style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 20, flex: 1 }} 
+                    value={demandaEditavel[0].tipo.descricao}
+                    onChangeText={text => handleInputChange('tipo', text)}
+                  />
+                </View>
               </View>
             </View>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
-              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Ativo</Text>
-              <TextInput
-                style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
-                value={demanda.ativo}
-                onChangeText={text => handleInputChange('ativo', text)}
+              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Status:</Text>
+              <Switch
+                value={demandaEditavel[0].ativo.descricao === 'Ativo'} 
+                onValueChange={newValue => {
+                  const novoValorAtivo = newValue? 'Ativo': 'Inativo';
+                  handleInputChange('ativo', novoValorAtivo); 
+                }}
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={demandaEditavel[0].ativo.descricao === 'Ativo'? "#f5dd4b": "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e" 
               />
             </View>
           </View>
-        )}
+        ) : (
+          <Text style={{textAlign:'center'}}>Carregando detalhes da demanda...</Text>
+        )
+      }
       </ScrollView>
       <ActionButtons />
     </SafeAreaView>

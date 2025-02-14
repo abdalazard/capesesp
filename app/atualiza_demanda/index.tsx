@@ -1,5 +1,5 @@
 import { Link, useGlobalSearchParams } from 'expo-router';
-import { Text, ScrollView, View, TouchableOpacity, TextInput, Switch } from 'react-native';
+import { Text, ScrollView, View, TouchableOpacity, TextInput, Switch, Animated } from 'react-native';
 import { ArrowLeft, Check, Trash } from 'phosphor-react-native';
 import useDemandaStore from '@/hooks/store/demanda.store';
 import { useEffect, useState } from 'react';
@@ -8,48 +8,100 @@ import styles from '../style';
 
 export default function index() {
   const { cod } = useGlobalSearchParams();
-  const [demandaEditavel, setDemandaEditavel] = useState<any>(null); // Novo estado para os dados editáveis
+  const [demandaEditavel, setDemandaEditavel] = useState<any>(null);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
-  const { buscaDemanda, /*salvarDemanda, atualizarDemanda*/ } = useDemandaStore();
+  const { buscaDemanda, atualizarDemanda } = useDemandaStore();
 
   useEffect(() => {
     const fetchDemanda = async () => {
       if (cod) {
         const demandaRecebida = await buscaDemanda(String(cod));
         setDemandaEditavel({ ...demandaRecebida });
-
       }
     };
     fetchDemanda();
   }, [cod]);
 
-  console.log(demandaEditavel);
-
-
   const handleInputChange = (field: string, value: string) => {
     setDemandaEditavel((prevDemanda: any) => {
         const updatedDemanda = {...prevDemanda};
         if (typeof updatedDemanda[0][field] === 'object' && updatedDemanda[0][field] !== null) {
-            updatedDemanda[0][field] = {...updatedDemanda[0][field], descricao: value};
+            updatedDemanda[0][field] = updatedDemanda[0][field];
         } else {
             updatedDemanda[0][field] = value;
         }
-        console.log(updatedDemanda);
         return updatedDemanda;
     });
+
   };
-
+  
   const handleSubmit = async () => {
-    // if (cod) {
-    //   // Atualizar demanda existente
-    //   await atualizarDemanda(String(cod), demanda);
-    // } else {
-    //   // Criar nova demanda
-    //   await salvarDemanda(demanda);
-    // }
-    // Redirecionar ou exibir mensagem de sucesso
+    try {
+      const data = {
+        "codigo": demandaEditavel[0].codigo,
+        "descricao": demandaEditavel[0].descricao,
+        "descriweb": demandaEditavel[0].descricaoweb,
+        "tipo": demandaEditavel[0].tipo.codigo,
+        "grupo": demandaEditavel[0].grupo.codigo,
+        "area": demandaEditavel[0].area.codigo,
+        "ativo": demandaEditavel[0].ativo.codigo,
+        "atendimento": demandaEditavel[0].atendimento.codigo,
+        "prazo": demandaEditavel[0].prazo,
+      };
 
-    alert(demandaEditavel)
+      await atualizarDemanda(String(cod), data);
+      
+      setToastMessage('Demanda atualizada com sucesso!');
+  
+      setShowToast(true);
+    
+    } catch (error) {
+      console.error(error);
+      setToastMessage('Erro ao atualizar demanda!');
+    }
+
+    setTimeout(() => {
+      setShowToast(false);
+    }, 2000);
+  }
+
+  const Toast = ({message, visible}: any) => {
+    const opacity = new Animated.Value(0); 
+  
+    if (visible) {
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    }
+  
+    return (
+      <Animated.View
+        style={{
+          position: 'absolute',
+          bottom: 50,
+          left: 20,
+          right: 20,
+          padding: 15,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          borderRadius: 10,
+          opacity,
+        }}
+      >
+      <Text style={{ color: '#fff', fontSize: 16, textAlign: 'center' }}>
+        {message}
+      </Text>
+    </Animated.View>
+    );
   };
 
   const BackButton = () => {
@@ -119,6 +171,7 @@ export default function index() {
         <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20 }}>
           {demandaEditavel && demandaEditavel[0] ? (
             <View>
+              <Toast message={toastMessage} visible={showToast} />
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Código:</Text>
                 <Text style={{ fontSize: 20, padding: 5, width: 100 }}>{demandaEditavel[0].codigo}</Text>
@@ -167,10 +220,10 @@ export default function index() {
               </View>
 
               <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
-                <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30, alignItems: 'center' }}>
+                <View style={{ flexDirection: 'column', gap: 20, marginBottom: 30, }}>
                   <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Atendimento:</Text>
                   <TextInput
-                    style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20 }}
+                    style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20, }}
                     value={demandaEditavel[0].atendimento.descricao}
                     onChangeText={text => handleInputChange('atendimento', text)}
                   />

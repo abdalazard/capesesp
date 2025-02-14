@@ -5,6 +5,8 @@ import useDemandaStore from '@/hooks/store/demanda.store';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../style';
+import Toast from '@/components/Toast';
+import Excluir from '@/components/Botoes/Excluir';
 
 export default function index() {
   const { cod } = useGlobalSearchParams();
@@ -67,43 +69,6 @@ export default function index() {
     }, 2000);
   }
 
-  const Toast = ({message, visible}: any) => {
-    const opacity = new Animated.Value(0); 
-  
-    if (visible) {
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(opacity, {
-        toValue: 0,
-        duration: 500,
-        useNativeDriver: true,
-      }).start();
-    }
-  
-    return (
-      <Animated.View
-        style={{
-          position: 'absolute',
-          bottom: 50,
-          left: 20,
-          right: 20,
-          padding: 15,
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          borderRadius: 10,
-          opacity,
-        }}
-      >
-      <Text style={{ color: '#fff', fontSize: 16, textAlign: 'center' }}>
-        {message}
-      </Text>
-    </Animated.View>
-    );
-  };
-
   const BackButton = () => {
     return (
       <Link href="../(home)" style={{ display: 'flex', alignItems: 'center' }}>
@@ -136,16 +101,7 @@ export default function index() {
           <Check size={24} color="white" />
         </TouchableOpacity>
         {cod && (
-          <TouchableOpacity style={{
-            backgroundColor: 'red',
-            padding: 8,
-            marginHorizontal: 5,
-            borderRadius: 5,
-            width: 80,
-            alignItems: 'center'
-          }} onPress={() => alert("Excluir")}>
-            <Trash size={24} color="white" />
-          </TouchableOpacity>
+          <Excluir cod={cod}/>
         )}
       </View>
     );
@@ -171,7 +127,7 @@ export default function index() {
         <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20 }}>
           {demandaEditavel && demandaEditavel[0] ? (
             <View>
-              <Toast message={toastMessage} visible={showToast} />
+              <Toast message={toastMessage} visible={showToast}/>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Código:</Text>
                 <Text style={{ fontSize: 20, padding: 5, width: 100 }}>{demandaEditavel[0].codigo}</Text>

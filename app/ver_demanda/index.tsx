@@ -6,6 +6,7 @@ import useDemandaStore from '@/hooks/store/demanda.store';
 import { useEffect, useState } from 'react';
 import { PencilSimple } from 'phosphor-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Excluir from '@/components/Botoes/Excluir';
 
 export default function index() {
   const { cod } = useGlobalSearchParams();
@@ -17,7 +18,6 @@ export default function index() {
     const fetchDemanda = async () => {
       const demandaRecebida = await buscaDemanda(String(cod));
       setDemandaObtida(demandaRecebida);
-      console.log(demandaRecebida)
     };
 
     fetchDemanda();
@@ -122,16 +122,7 @@ export default function index() {
         }>
           <PencilSimple size={24} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity style={{ 
-          backgroundColor:'red',
-          padding: 8,
-          marginHorizontal: 5,
-          borderRadius: 5,
-          width: 80,
-          alignItems:'center' 
-        }} onPress={() => alert("Excluir")}>
-          <Trash size={24} color="white" />
-        </TouchableOpacity>
+        <Excluir cod={cod}/>
       </View>
     );
   };

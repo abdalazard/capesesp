@@ -87,7 +87,35 @@ export const useDemandaStore = create<DemandaStore>(
         }
     },
 
-    
+    deletarDemanda: async (codigoBusca: string)=> {
+        try {
+            const url = 'http://127.0.0.1:8000/api';
+            const response = await fetch(`${url}/demanda/${codigoBusca}`, {
+                method: 'DELETE', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Erro ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            console.log(data)
+        } catch (error: any) {
+            console.error("Erro na tentativa de exclusão de demanda", error);
+            return {
+                status: 500,
+                error: error.message
+            };
+        } finally {
+            set({ isLoading: false }); 
+        }
+    },
+
 }));
 
 export default useDemandaStore;

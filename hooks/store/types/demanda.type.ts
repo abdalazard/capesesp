@@ -43,6 +43,7 @@ interface DemandaStore {
     fetchDemandas: () => Promise<void>;
     buscaDemanda: (codigoBusca: string) => Promise<Demanda  | null>;
     atualizarDemanda: (codigoBusca: string, demanda: any) => Promise<Demanda  | null>;
+    deletarDemanda: (codigoBusca: string) => void;
 }
 
 export default DemandaStore;

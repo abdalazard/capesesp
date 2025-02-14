@@ -5,10 +5,13 @@ import useDemandaStore from '@/hooks/store/demanda.store';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '@/app/style';
+import Toast from '@/components/Toast';
 
 export default function CriarDemanda() {
   const { cod } = useGlobalSearchParams();
   const [demanda, setDemanda] = useState<any>(null);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const { /*salvarDemanda*/ } = useDemandaStore();
 
@@ -58,17 +61,17 @@ export default function CriarDemanda() {
       console.log(data)
       // await criarDemanda(data);
       
-      // setToastMessage('Demanda atualizada com sucesso!');
+      setToastMessage('Demanda atualizada com sucesso!');
   
-      // setShowToast(true);
+      setShowToast(true);
     
     } catch (error) {
       console.error(error);
-      // setToastMessage('Erro ao atualizar demanda!');
+      setToastMessage('Erro ao atualizar demanda!');
     }
 
     setTimeout(() => {
-      // setShowToast(false);
+      setShowToast(false);
     }, 2000);
   }
 
@@ -128,6 +131,7 @@ export default function CriarDemanda() {
             <Text style={{ textAlign: 'center' }}>Carregando os dados da demanda...</Text>
           ): (
             <View>
+              <Toast message={toastMessage} visible={showToast}/>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Código</Text>
                 <TextInput
@@ -166,7 +170,7 @@ export default function CriarDemanda() {
 
               <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>
                 <View style={{ flexDirection: 'column', gap: 20, marginBottom: 30 }}>
-                  <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Área:</Text>
+                  <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Área:</Text>ScrollView, View, TouchableOpacity, TextInput, Switch, 
                   <TextInput
                     style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, flex: 1, borderRadius: 20, backgroundColor: '#fff' }}
                     onChangeText={text => handleInputChange('area', text)}

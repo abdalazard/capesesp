@@ -121,11 +121,7 @@ export default function index() {
             <View>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Código:</Text>
-                <TextInput
-                  style={{ fontSize: 20, borderWidth: 1, borderColor: 'gray', padding: 5, width: 100, borderRadius:20 }}
-                  value={demandaEditavel[0].codigo}
-                  onChangeText={text => handleInputChange('cod', text)}
-                />
+                <Text style={{ fontSize: 20, padding: 5, width: 100 }}>{demandaEditavel[0].codigo}</Text>
               </View>
 
               <View style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 40 }}>

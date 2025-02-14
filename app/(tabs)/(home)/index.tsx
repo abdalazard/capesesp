@@ -28,7 +28,7 @@ export default function index() {
   },[]);
   
   useEffect(() => {
-    if (demandas.length > 0) {
+    if (Array.isArray(demandas) && demandas.length > 0) {
       animations.current = demandas.map(() => new Animated.Value(0));
 
       Animated.stagger(
